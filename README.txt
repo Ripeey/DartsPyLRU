@@ -1,6 +1,5 @@
+# LRU Dictionaries (This is a Python-3 implementation)
 
-LRU Dictionaries
-=================
 
     >>> from darts.lib.utils.lru import LRUDict
 

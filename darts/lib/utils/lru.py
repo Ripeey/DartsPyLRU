@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # -*- coding: utf-8 -*-
 #
 #  Deterministic Arts Utilities
@@ -22,9 +24,10 @@
 #  THE SOFTWARE.
 
 """Trivial LRU-Dictionary implementation
+
+This is a python3 implementation of LRU
 """
 
-from __future__ import with_statement
 
 import sys
 from threading import RLock, Lock, Condition, Thread
@@ -234,7 +237,7 @@ class LRUDict(object):
         See `iterkeys`.
         """
 
-        return self.__index.iterkeys()
+        return iter(self.__index.keys())
 
     def iterkeys(self):
 
@@ -249,7 +252,7 @@ class LRUDict(object):
         priority in any way.
         """
 
-        return self.__index.iterkeys()
+        return iter(self.__index.keys())
 
     def itervalues(self):
 
@@ -264,7 +267,7 @@ class LRUDict(object):
         priority in any way.
         """
 
-        for item in self.__index.itervalues():
+        for item in self.__index.values():
             yield item._value
 
     def iteritems(self):
@@ -280,7 +283,7 @@ class LRUDict(object):
         *not* reflect the LRU priority in any way.
         """
 
-        for key, item in self.__index.iteritems():
+        for key, item in self.__index.items():
             yield key, item._value
 
     def __delitem__(self, key):
@@ -564,7 +567,7 @@ class SynchronizedLRUDict(object):
         """
 
         with self.__lock:
-            return self.__dict.get(key, None)
+            return self.__dict.get(key, default)
 
     def peek(self, key, default=None):
 
@@ -581,7 +584,7 @@ class SynchronizedLRUDict(object):
         """
 
         with self.__lock:
-            return self.__dict.peek(key, None)
+            return self.__dict.peek(key, default)
 
     def pop(self, key, default=missing):
 
@@ -629,7 +632,7 @@ class SynchronizedLRUDict(object):
         See `iterkeys`.
         """
 
-        return self.iterkeys()
+        return iter(self.keys())
 
     def iterkeys(self):
 
@@ -846,7 +849,7 @@ class AutoLRUCache(object):
             self.__cache.clear()
             if discard_loads:
                 conditions = list()
-                keys = tuple(self.__loading.iterkeys())
+                keys = tuple(self.__loading.keys())
                 for k in keys:
                     placeholder = self.__loading.pop(k)
                     if placeholder._state is loading:
@@ -1037,7 +1040,7 @@ class DecayingLRUCache(object):
             self.__cache.clear()
             if discard_loads:
                 conditions = list()
-                keys = tuple(self.__loading.iterkeys())
+                keys = tuple(self.__loading.keys())
                 for k in keys:
                     placeholder = self.__loading.pop(k)
                     if placeholder._state is loading:
